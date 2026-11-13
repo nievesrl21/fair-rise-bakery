@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open a Franchise — Fair Rise Bakery</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --rust:  #C94A2B;
+    --amber: #F2A11E;
+    --cream: #FDF6EC;
+    --dark:  #8B6340;
+    --mid:   #7A4A2A;
+    --light: #FEF9F3;
+  }
+  html { scroll-behavior: smooth; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background: var(--cream); color: var(--dark); }
+
+  /* ── NAV ── */
+  nav { position: sticky; top: 0; z-index: 100; background: var(--light); border-bottom: 2px solid var(--amber); display: flex; align-items: center; justify-content: space-between; padding: 0 5vw; height: 68px; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--dark); font-size: 0.85rem; letter-spacing: 0.08em; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--rust); }
+  .nav-links a.active { color: var(--rust); border-bottom: 2px solid var(--rust); padding-bottom: 2px; }
+  .nav-cta { background: var(--rust); color: #fff; padding: 0.6rem 1.4rem; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em; text-decoration: none; transition: background 0.2s; }
+  .nav-cta:hover { background: var(--dark); }
+  .hamburger { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 4px; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--dark); }
+  .mobile-menu { display: none; flex-direction: column; background: var(--light); border-bottom: 2px solid var(--amber); }
+  .mobile-menu a { padding: 1rem 5vw; text-decoration: none; color: var(--dark); font-size: 0.9rem; font-weight: 500; border-bottom: 1px solid #f0e8d8; }
+  .mobile-menu.open { display: flex; }
+  @media(max-width: 768px) { .nav-links { display: none; } .hamburger { display: flex; } }
+
+  /* ── SHARED ── */
+  .section-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.75rem; display: block; }
+  .section-title { font-size: clamp(1.9rem, 3.2vw, 2.9rem); font-weight: 800; line-height: 1.12; color: var(--dark); margin-bottom: 1rem; }
+  .btn-primary { background: var(--rust); color: #fff; padding: 0.85rem 1.8rem; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.05em; text-decoration: none; transition: background 0.2s; display: inline-block; }
+  .btn-primary:hover { background: var(--dark); }
+  .btn-outline { background: transparent; color: var(--rust); border: 2px solid var(--rust); padding: 0.85rem 1.8rem; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.05em; text-decoration: none; transition: all 0.2s; display: inline-block; }
+  .btn-outline:hover { background: var(--rust); color: #fff; }
+  .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── HERO ── */
+  .hero { background: #C94A2B; padding: 8rem 5vw 6rem; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .hero-text .section-label { color: var(--amber); }
+  .hero h1 { font-size: clamp(2.8rem, 4.5vw, 4.4rem); font-weight: 800; line-height: 1.04; letter-spacing: -0.025em; color: #fff; margin-bottom: 1.5rem; }
+  .hero h1 em { color: var(--amber); font-style: normal; }
+  .hero p { font-size: 1.05rem; line-height: 1.85; color: rgba(255,255,255,0.65); margin-bottom: 2.5rem; max-width: 460px; }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .hero-btns .btn-primary { background: var(--amber); color: var(--dark); }
+  .hero-btns .btn-primary:hover { background: var(--rust); color: #fff; }
+  .hero-btns .btn-outline { border-color: rgba(255,255,255,0.35); color: rgba(255,255,255,0.8); }
+  .hero-btns .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: #fff; color: #fff; }
+  /* Hero stats cluster */
+  .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.08); }
+  .hero-stat { background: rgba(255,255,255,0.04); padding: 2rem 1.75rem; }
+  .hero-stat-num { font-size: 2.4rem; font-weight: 800; color: var(--amber); line-height: 1; margin-bottom: 0.4rem; display: block; }
+  .hero-stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.55); line-height: 1.5; }
+  @media(max-width: 768px) { .hero { grid-template-columns: 1fr; padding: 5rem 5vw 4rem; gap: 3rem; } }
+
+  /* ── BUSINESS CASE ── */
+  .biz { padding: 7rem 5vw; background: var(--cream); }
+  .biz-intro { max-width: 600px; margin-bottom: 4rem; }
+  .biz-intro p { font-size: 1rem; color: var(--mid); line-height: 1.85; margin-top: 0.75rem; }
+  .biz-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .biz-card { background: var(--light); padding: 2.5rem 2rem; border-top: 4px solid var(--amber); transition: border-color 0.2s, transform 0.2s; }
+  .biz-card:hover { border-color: var(--rust); transform: translateY(-4px); }
+  .biz-card .biz-icon { width: 48px; height: 48px; margin-bottom: 1.25rem; }
+  .biz-card h3 { font-size: 1rem; font-weight: 800; color: var(--dark); margin-bottom: 0.5rem; letter-spacing: 0.02em; }
+  .biz-card .biz-headline { font-size: 1.6rem; font-weight: 800; color: var(--rust); margin-bottom: 0.6rem; line-height: 1; }
+  .biz-card p { font-size: 0.86rem; color: var(--mid); line-height: 1.72; }
+  .biz-source { font-size: 0.72rem; color: rgba(122,74,42,0.5); margin-top: 0.75rem; font-style: italic; }
+  @media(max-width: 960px) { .biz-grid { grid-template-columns: 1fr 1fr; } }
+  @media(max-width: 640px) { .biz-grid { grid-template-columns: 1fr; } }
+
+  /* ── LOCATIONS ── */
+  .locations { padding: 7rem 5vw; background: var(--light); }
+  .locations-intro { max-width: 520px; margin-bottom: 3.5rem; }
+  .locations-intro p { font-size: 0.95rem; color: var(--mid); line-height: 1.8; margin-top: 0.75rem; }
+  .locations-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .location-card { background: var(--cream); padding: 2.5rem 2rem; position: relative; overflow: hidden; transition: transform 0.2s; }
+  .location-card:hover { transform: translateY(-3px); }
+  .location-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--rust); }
+  .location-city { font-size: 1.5rem; font-weight: 800; color: var(--dark); margin-bottom: 0.25rem; }
+  .location-state { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber); margin-bottom: 1.25rem; display: block; }
+  .location-detail { font-size: 0.85rem; color: var(--mid); line-height: 1.7; margin-bottom: 0.5rem; display: flex; align-items: flex-start; gap: 0.5rem; }
+  .location-detail svg { flex-shrink: 0; margin-top: 2px; }
+  .location-badge { display: inline-block; background: var(--amber); color: var(--dark); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.7rem; margin-top: 1rem; }
+  /* USA outline map SVG */
+  .map-wrapper { background: #C94A2B; padding: 3rem 5vw 3.5rem; text-align: center; }
+  .map-wrapper svg { width: 100%; max-width: 700px; height: auto; }
+  @media(max-width: 768px) { .locations-grid { grid-template-columns: 1fr; } }
+
+  /* ── HOW IT WORKS (franchise) ── */
+  .how-franchise { padding: 6rem 5vw; background: var(--cream); }
+  .franchise-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; margin-top: 3.5rem; }
+  .franchise-steps::before { content: ''; position: absolute; top: 27px; left: 12.5%; right: 12.5%; height: 2px; background: var(--amber); z-index: 0; }
+  .fstep { text-align: center; padding: 0 1rem; position: relative; }
+  .fstep-num { width: 56px; height: 56px; border-radius: 50%; background: var(--amber); color: var(--dark); font-size: 1.3rem; font-weight: 800; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; position: relative; z-index: 1; }
+  .fstep h3 { font-size: 0.95rem; font-weight: 700; color: var(--dark); margin-bottom: 0.5rem; }
+  .fstep p { font-size: 0.84rem; color: var(--mid); line-height: 1.65; }
+  @media(max-width: 768px) { .franchise-steps { grid-template-columns: 1fr 1fr; gap: 2.5rem; } .franchise-steps::before { display: none; } }
+  @media(max-width: 480px) { .franchise-steps { grid-template-columns: 1fr; } }
+
+  /* ── CONTACT ── */
+  .contact { display: grid; grid-template-columns: 1fr 1fr; }
+  .contact-left { background: var(--rust); padding: 5rem 4vw 5rem 5vw; display: flex; flex-direction: column; justify-content: center; }
+  .contact-left .section-label { color: rgba(255,255,255,0.65); }
+  .contact-left h2 { font-size: clamp(1.6rem, 2.5vw, 2.4rem); font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 1.25rem; }
+  .contact-left p { font-size: 0.9rem; color: rgba(255,255,255,0.75); line-height: 1.8; margin-bottom: 1.75rem; }
+  .contact-list { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+  .contact-list li { font-size: 0.88rem; color: rgba(255,255,255,0.88); padding-left: 1.5rem; position: relative; line-height: 1.55; }
+  .contact-list li::before { content: ''; position: absolute; left: 0; top: 0.6em; width: 8px; height: 2px; background: var(--amber); }
+  .contact-right { background: var(--cream); padding: 5rem 5vw 5rem 4vw; display: flex; flex-direction: column; justify-content: center; }
+  .contact-right h3 { font-size: 1.15rem; font-weight: 700; color: var(--dark); margin-bottom: 1.5rem; }
+  .form-group { margin-bottom: 1.1rem; }
+  .form-group label { display: block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.4rem; }
+  .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 0.75rem 1rem; border: 1.5px solid #e0cdb0; background: var(--light); font-family: inherit; font-size: 0.9rem; color: var(--dark); outline: none; transition: border-color 0.2s; border-radius: 0; -webkit-appearance: none; }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--rust); }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .btn-submit { width: 100%; background: var(--rust); color: #fff; border: none; padding: 1rem; font-size: 0.88rem; font-weight: 700; letter-spacing: 0.12em; cursor: pointer; transition: background 0.2s; text-transform: uppercase; font-family: inherit; }
+  .btn-submit:hover { background: var(--dark); }
+  .form-thanks { display: none; text-align: center; padding: 2.5rem 1rem; }
+  .form-thanks h3 { font-size: 1.4rem; font-weight: 800; color: var(--rust); margin-bottom: 0.6rem; }
+  .form-thanks p { color: var(--mid); font-size: 0.9rem; line-height: 1.6; }
+  @media(max-width: 768px) { .contact { grid-template-columns: 1fr; } .contact-left, .contact-right { padding: 4rem 5vw; } .form-row { grid-template-columns: 1fr; } }
+
+  /* ── FOOTER ── */
+  footer { background: var(--dark); padding: 3.5rem 5vw 2rem; }
+  .footer-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 2rem; }
+  .footer-tagline { font-size: 0.8rem; color: rgba(255,255,255,0.35); font-style: italic; margin-top: 0.5rem; }
+  .footer-links { display: flex; gap: 1.5rem; list-style: none; flex-wrap: wrap; align-items: center; }
+  .footer-links a { text-decoration: none; color: rgba(255,255,255,0.55); font-size: 0.82rem; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--amber); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-legal { font-size: 0.75rem; color: rgba(255,255,255,0.3); line-height: 1.5; max-width: 500px; }
+  .footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" aria-label="Fair Rise Home">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 60" width="190" height="44">
+      <path d="M 10 46 A 22 22 0 0 1 54 46" fill="#C94A2B"/>
+      <rect x="10" y="46" width="44" height="3" rx="1.5" fill="#F2A11E"/>
+      <text x="68" y="36" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="19" font-weight="800" letter-spacing="3" fill="#8B6340">FAIR RISE</text>
+      <text x="69" y="52" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="8.5" font-weight="400" letter-spacing="4.5" fill="#7A4A2A">BAKERY · HIRING</text>
+    </svg>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Bakery</a></li>
+    <li><a href="hiring.html">Fair Chance Hiring</a></li>
+    <li><a href="franchise.html" class="active">Franchise</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Partner With Us</a>
+  <button class="hamburger" aria-label="Open menu" onclick="document.getElementById('mob').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mob">
+  <a href="index.html" onclick="document.getElementById('mob').classList.remove('open')">Bakery</a>
+  <a href="hiring.html" onclick="document.getElementById('mob').classList.remove('open')">Fair Chance Hiring</a>
+  <a href="franchise.html" onclick="document.getElementById('mob').classList.remove('open')">Franchise</a>
+  <a href="#contact" onclick="document.getElementById('mob').classList.remove('open')">Partner With Us</a>
+</div>
+
+<!-- HERO -->
+<section class="hero fade-up">
+  <div class="hero-text">
+    <span class="section-label">Franchise Opportunity</span>
+    <h1>Build a business.<br><em>Change a city.</em></h1>
+    <p>Fair Rise is a high-demand protein bakery built on fair chance hiring. We turn overlooked talent into your competitive advantage. Strong retention, lower costs, and real community impact.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Request a Prospectus</a>
+      <a href="hiring.html" class="btn-outline">Our Hiring Ethos</a>
+    </div>
+  </div>
+  <div class="hero-stats fade-up" style="transition-delay:0.15s">
+    <div class="hero-stat">
+      <span class="hero-stat-num">3</span>
+      <span class="hero-stat-label">Cities operating now: New York, Chicago, Austin</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">40%+</span>
+      <span class="hero-stat-label">Lower turnover vs. standard QSR averages</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">$9,600</span>
+      <span class="hero-stat-label">Federal WOTC tax credit per eligible hire</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">70M+</span>
+      <span class="hero-stat-label">Americans with a criminal record: your competitive talent edge</span>
+    </div>
+  </div>
+</section>
+
+<!-- BUSINESS CASE -->
+<section class="biz fade-up" id="benefits">
+  <div class="biz-intro">
+    <span class="section-label">The Business Case</span>
+    <h2 class="section-title">Fair chance hiring is a competitive advantage.</h2>
+    <p>The data is clear: franchises that hire formerly incarcerated and fair chance talent outperform on retention, qualify for significant tax relief, and tap into a talent pool that competitors ignore. Here's what that means for your bottom line:</p>
+  </div>
+  <div class="biz-grid">
+    <div class="biz-card fade-up">
+      <svg class="biz-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="4" width="40" height="40" rx="4" stroke="#F2A11E" stroke-width="2"/>
+        <path d="M 12 32 L 20 22 L 27 28 L 36 16" stroke="#C94A2B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="36" cy="16" r="3" fill="#C94A2B"/>
+      </svg>
+      <h3>Tax Credits</h3>
+      <div class="biz-headline">Up to $9,600</div>
+      <p>The federal Work Opportunity Tax Credit (WOTC) provides up to $9,600 per eligible hire for employers who hire individuals with felony convictions within a year of release. This is one of several financial levers that make fair chance hiring a smart business decision.</p>
+      <p class="biz-source">Source: U.S. Department of Labor, WOTC Program</p>
+    </div>
+    <div class="biz-card fade-up" style="transition-delay:0.1s">
+      <svg class="biz-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="24" cy="20" r="10" stroke="#F2A11E" stroke-width="2"/>
+        <path d="M 10 40 Q 10 30 24 30 Q 38 30 38 40" stroke="#F2A11E" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M 19 20 L 22 23 L 29 16" stroke="#C94A2B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <h3>Retention Rates</h3>
+      <div class="biz-headline">40% Lower Turnover</div>
+      <p>Studies consistently show that fair chance employees, particularly those with structured support like transportation and training, stay significantly longer than average QSR hires. Lower churn means lower recruiting costs and a more skilled, stable team.</p>
+      <p class="biz-source">Source: SHRM Fair Chance Employer Research, 2023</p>
+    </div>
+    <div class="biz-card fade-up" style="transition-delay:0.2s">
+      <svg class="biz-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="24" cy="16" r="7" stroke="#F2A11E" stroke-width="2"/>
+        <circle cx="10" cy="28" r="5" stroke="#F2A11E" stroke-width="2"/>
+        <circle cx="38" cy="28" r="5" stroke="#F2A11E" stroke-width="2"/>
+        <path d="M 6 42 Q 6 35 10 35 Q 14 35 15 38" stroke="#F2A11E" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M 33 38 Q 34 35 38 35 Q 42 35 42 42" stroke="#F2A11E" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M 15 42 Q 15 34 24 34 Q 33 34 33 42" stroke="#C94A2B" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      </svg>
+      <h3>Untapped Talent Pool</h3>
+      <div class="biz-headline">70M+ People</div>
+      <p>Over 70 million Americans have a criminal record, yet the vast majority are shut out of the labor market. This means your hiring pool is both large and overlooked by competitors, giving Fair Rise franchises access to a highly motivated workforce in cities where labor shortages are a constant challenge for food service operators.</p>
+      <p class="biz-source">Source: Bureau of Justice Statistics</p>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATIONS MAP -->
+<div class="map-wrapper fade-up">
+  <!-- Simplified US map with city dots -->
+  <svg viewBox="0 0 800 480" xmlns="http://www.w3.org/2000/svg">
+    <!-- Very simplified US outline -->
+    <path d="M 120 80 L 140 70 L 200 65 L 280 60 L 360 58 L 440 60 L 500 58 L 560 62 L 610 68 L 640 80 L 660 95 L 670 120 L 675 150 L 670 180 L 660 210 L 650 240 L 640 265 L 630 285 L 610 300 L 595 310 L 575 308 L 555 295 L 535 290 L 510 295 L 490 305 L 470 315 L 450 320 L 420 318 L 390 310 L 360 300 L 335 295 L 310 298 L 290 310 L 270 320 L 250 325 L 230 320 L 210 310 L 195 295 L 180 280 L 165 260 L 150 240 L 135 215 L 120 190 L 108 165 L 100 140 L 102 115 L 110 95 Z" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+    <!-- Gulf coast indentation -->
+    <path d="M 310 298 Q 320 340 350 360 Q 380 375 400 370 Q 430 360 450 320" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+    <!-- Florida peninsula -->
+    <path d="M 560 295 Q 570 330 575 360 Q 572 390 560 405 Q 548 418 540 408 Q 532 390 535 360 Q 538 330 535 290" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+
+    <!-- NY dot — approx coords -->
+    <circle cx="595" cy="130" r="10" fill="#C94A2B" opacity="0.95"/>
+    <circle cx="595" cy="130" r="18" fill="#C94A2B" opacity="0.2"/>
+    <circle cx="595" cy="130" r="26" fill="#C94A2B" opacity="0.08"/>
+    <text x="615" y="126" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" font-weight="700" fill="#fff" letter-spacing="1">NEW YORK</text>
+    <text x="615" y="142" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="10" fill="rgba(255,255,255,0.55)" letter-spacing="0.5">OPEN NOW</text>
+
+    <!-- Chicago dot -->
+    <circle cx="500" cy="155" r="10" fill="#C94A2B" opacity="0.95"/>
+    <circle cx="500" cy="155" r="18" fill="#C94A2B" opacity="0.2"/>
+    <circle cx="500" cy="155" r="26" fill="#C94A2B" opacity="0.08"/>
+    <text x="520" y="151" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" font-weight="700" fill="#fff" letter-spacing="1">CHICAGO</text>
+    <text x="520" y="167" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="10" fill="rgba(255,255,255,0.55)" letter-spacing="0.5">OPEN NOW</text>
+
+    <!-- Austin dot -->
+    <circle cx="380" cy="280" r="10" fill="#C94A2B" opacity="0.95"/>
+    <circle cx="380" cy="280" r="18" fill="#C94A2B" opacity="0.2"/>
+    <circle cx="380" cy="280" r="26" fill="#C94A2B" opacity="0.08"/>
+    <text x="400" y="276" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" font-weight="700" fill="#fff" letter-spacing="1">AUSTIN</text>
+    <text x="400" y="292" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="10" fill="rgba(255,255,255,0.55)" letter-spacing="0.5">OPEN NOW</text>
+
+    <!-- Coming soon ghost dots -->
+    <circle cx="200" cy="190" r="7" fill="none" stroke="rgba(242,161,30,0.4)" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <text x="212" y="195" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="10" fill="rgba(242,161,30,0.5)">COMING SOON</text>
+    <circle cx="170" cy="150" r="7" fill="none" stroke="rgba(242,161,30,0.4)" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <circle cx="450" cy="230" r="7" fill="none" stroke="rgba(242,161,30,0.4)" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+    <!-- Label -->
+    <text x="40" y="450" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="rgba(255,255,255,0.3)" letter-spacing="0.5">Current Locations</text>
+    <circle cx="155" cy="446" r="5" fill="#C94A2B"/>
+    <text x="165" y="450" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="rgba(255,255,255,0.3)">Open Now</text>
+    <circle cx="240" cy="446" r="5" fill="none" stroke="rgba(242,161,30,0.5)" stroke-width="1.5" stroke-dasharray="3 2"/>
+    <text x="252" y="450" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="rgba(255,255,255,0.3)">Coming Soon</text>
+  </svg>
+</div>
+
+<!-- LOCATION CARDS -->
+<section class="locations fade-up">
+  <div class="locations-intro">
+    <span class="section-label">Our Locations</span>
+    <h2 class="section-title">Where we're operating.</h2>
+    <p>Each Fair Rise location serves the local community both as a bakery and as a reentry employer. We partner with local NGOs and reentry programs to source talent in every city we open.</p>
+  </div>
+  <div class="locations-grid">
+    <div class="location-card">
+      <div class="location-city">New York</div>
+      <span class="location-state">New York</span>
+      <div class="location-detail">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="#C94A2B" stroke-width="1.5"/><path d="M 7 4 L 7 7 L 9 9" stroke="#C94A2B" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Open since 2023
+      </div>
+      <div class="location-detail">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="5" r="3" stroke="#C94A2B" stroke-width="1.5"/><path d="M 3 12 Q 3 9 7 9 Q 11 9 11 12" stroke="#C94A2B" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+        18 fair chance employees
+      </div>
+      <div class="location-detail">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M 7 2 Q 4 2 3 5 Q 2 8 4 10 L 7 13 L 10 10 Q 12 8 11 5 Q 10 2 7 2 Z" stroke="#C94A2B" stroke-width="1.5" fill="none"/><circle cx="7" cy="6.5" r="1.5" fill="#C94A2B"/></svg>
+        Brooklyn &amp; Lower East Side
+      </div>
+      <span class="location-badge">Flagship</span>
+    </div>
+    <div class="location-card">
+      <div class="location-city">Chicago</div>
+      <span class="location-state">Illinois</span>
+      <div class="location-detail">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="#C94A2B" stroke-width="1.5"/><path d="M 7 4 L 7 7 L 9 9" stroke="#C94A2B" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Open since 2024
+      </div>
+      <div class="location-detail">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="5" r="3" stroke="#C94A2B" stroke-width="1.5"/><path d="M 3 12 Q 3 9 7 9 Q 11 9 11 12" stroke="#C94A2B" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+        12 fair chance employees
+      </div>
+      <div class="location-detail">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M 7 2 Q 4 2 3 5 Q 2 8 4 10 L 7 13 L 10 10 Q 12 8 11 5 Q 10 2 7 2 Z" stroke="#C94A2B" stroke-width="1.5" fill="none"/><circle cx="7" cy="6.5" r="1.5" fill="#C94A2B"/></svg>
+        West Loop
+      </div>
+      <span class="location-badge">Open</span>
+    </div>
+    <div class="location-card">
+      <div class="location-city">Austin</div>
+      <span class="location-state">Texas</span>
+      <div class="location-detail">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="#C94A2B" stroke-width="1.5"/><path d="M 7 4 L 7 7 L 9 9" stroke="#C94A2B" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Open since 2024
+      </div>
+      <div class="location-detail">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="5" r="3" stroke="#C94A2B" stroke-width="1.5"/><path d="M 3 12 Q 3 9 7 9 Q 11 9 11 12" stroke="#C94A2B" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+        14 fair chance employees
+      </div>
+      <div class="location-detail">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M 7 2 Q 4 2 3 5 Q 2 8 4 10 L 7 13 L 10 10 Q 12 8 11 5 Q 10 2 7 2 Z" stroke="#C94A2B" stroke-width="1.5" fill="none"/><circle cx="7" cy="6.5" r="1.5" fill="#C94A2B"/></svg>
+        East 6th Street
+      </div>
+      <span class="location-badge">Open</span>
+    </div>
+  </div>
+</section>
+
+<!-- HOW FRANCHISING WORKS -->
+<section class="how-franchise fade-up">
+  <span class="section-label">How It Works</span>
+  <h2 class="section-title">From inquiry to opening day.</h2>
+  <div class="franchise-steps">
+    <div class="fstep">
+      <div class="fstep-num">1</div>
+      <h3>Request a Prospectus</h3>
+      <p>Fill out the form below. We'll send you the full franchise prospectus with financials, territory maps, and support details within 48 hours.</p>
+    </div>
+    <div class="fstep">
+      <div class="fstep-num">2</div>
+      <h3>Discovery Call</h3>
+      <p>A 60-minute call with the Fair Rise team to walk through the model, your market, and whether we're a mutual fit.</p>
+    </div>
+    <div class="fstep">
+      <div class="fstep-num">3</div>
+      <h3>Site Selection</h3>
+      <p>We help you identify the right location and line up reentry partner organizations in your city before you open.</p>
+    </div>
+    <div class="fstep">
+      <div class="fstep-num">4</div>
+      <h3>Open and Operate</h3>
+      <p>Full training, hiring support, and ongoing operational guidance. You focus on the community; we support the business.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT FORM -->
+<section class="contact fade-up" id="contact">
+  <div class="contact-left">
+    <span class="section-label">Get in Touch</span>
+    <h2>Ready to bring Fair Rise to your city?</h2>
+    <p>We're actively looking for franchise partners in new markets, especially operators who care about community impact as much as business performance. Fill in your details and we'll be in touch within 2 business days.</p>
+    <ul class="contact-list">
+      <li>Receive full franchise prospectus and financial model</li>
+      <li>Access territory availability map</li>
+      <li>Connect with our reentry hiring network in your city</li>
+      <li>Learn about WOTC tax credit qualification process</li>
+    </ul>
+  </div>
+  <div class="contact-right">
+    <h3>Tell us about yourself</h3>
+    <form id="franchiseForm" onsubmit="handleFranchiseForm(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="f-fname">First Name</label>
+          <input type="text" id="f-fname" placeholder="First" required>
+        </div>
+        <div class="form-group">
+          <label for="f-lname">Last Name</label>
+          <input type="text" id="f-lname" placeholder="Last" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="f-email">Email</label>
+        <input type="email" id="f-email" placeholder="your@email.com" required>
+      </div>
+      <div class="form-group">
+        <label for="f-phone">Phone</label>
+        <input type="tel" id="f-phone" placeholder="+1 (000) 000-0000">
+      </div>
+      <div class="form-group">
+        <label for="f-city">Target City</label>
+        <select id="f-city">
+          <option value="">Select a city</option>
+          <option>Los Angeles, CA</option>
+          <option>Miami, FL</option>
+          <option>Atlanta, GA</option>
+          <option>Houston, TX</option>
+          <option>Seattle, WA</option>
+          <option>Boston, MA</option>
+          <option>Denver, CO</option>
+          <option>Philadelphia, PA</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="f-bg">Your background</label>
+        <textarea id="f-bg" rows="3" placeholder="Tell us about your experience in food service, business, or community work..."></textarea>
+      </div>
+      <button type="submit" class="btn-submit">Request the Prospectus</button>
+    </form>
+    <div class="form-thanks" id="franchiseThanks">
+      <h3>You're on the list.</h3>
+      <p>We'll send the prospectus to your inbox within 48 hours and reach out to schedule a discovery call. Thank you.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 60" width="170" height="40">
+        <path d="M 10 46 A 22 22 0 0 1 54 46" fill="#FDF6EC"/>
+        <rect x="10" y="46" width="44" height="3" rx="1.5" fill="#F2A11E"/>
+        <text x="68" y="36" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="19" font-weight="800" letter-spacing="3" fill="#FDF6EC">FAIR RISE</text>
+        <text x="69" y="52" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="8.5" font-weight="400" letter-spacing="4.5" fill="rgba(253,246,236,0.4)">BAKERY · HIRING</text>
+      </svg>
+      <p class="footer-tagline">Second chances, baked in.</p>
+    </div>
+    <ul class="footer-links">
+      <li><a href="index.html">Bakery</a></li>
+      <li><a href="hiring.html">Fair Chance Hiring</a></li>
+      <li><a href="franchise.html">Franchise</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-legal">Fair Rise Hiring is an equal opportunity employer. We do not discriminate on the basis of conviction record.</p>
+    <p class="footer-copy">© 2025 Fair Rise Bakery</p>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+  function handleFranchiseForm(e) {
+    e.preventDefault();
+    document.getElementById('franchiseForm').style.display = 'none';
+    document.getElementById('franchiseThanks').style.display = 'block';
+  }
+</script>
+</body>
+</html>

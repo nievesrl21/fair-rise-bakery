@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Join Our Mailing List - Fair Rise Bakery</title>
+<style>
+:root {
+  --rust: #C94A2B;
+  --amber: #F2A11E;
+  --cream: #FDF6EC;
+  --light: #FAF3E0;
+  --dark: #8B6340;
+}
+html { scroll-behavior: smooth; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background: var(--cream); color: var(--dark); }
+body { margin: 0; line-height: 1.6; }
+* { box-sizing: border-box; }
+nav { position: sticky; top: 0; z-index: 100; background: var(--light); border-bottom: 2px solid var(--amber); display: flex; align-items: center; justify-content: space-between; padding: 0 5vw; height: 68px; }
+nav a:not(.nav-cta) { margin-left: 1.8rem; text-decoration: none; color: var(--dark); font-weight: 600; font-size: 0.92rem; transition: color 0.2s; }
+nav a:not(.nav-cta):hover { color: var(--rust); }
+.nav-cta { background: var(--rust); color: #fff; padding: 0.6rem 1.4rem; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em; text-decoration: none; transition: background 0.2s; white-space: nowrap; }
+.nav-cta:hover { background: var(--dark); }
+.hamburger { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 4px; }
+.hamburger span { display: block; width: 24px; height: 2px; background: var(--dark); }
+.mobile-menu { display: none; flex-direction: column; background: var(--light); border-bottom: 2px solid var(--amber); }
+.mobile-menu a { padding: 1rem 5vw; text-decoration: none; color: var(--dark); font-weight: 600; border-top: 1px solid rgba(0,0,0,0.06); }
+.mobile-menu.open { display: flex; }
+
+.signup-container { min-height: 80vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding: 4rem 5vw; gap: 4rem; max-width: 1200px; margin: 0 auto; }
+.signup-info h1 { font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 900; margin: 0 0 1.5rem; line-height: 1.1; }
+.signup-info h1 em { font-style: normal; color: var(--rust); }
+.signup-info p { font-size: 1.1rem; color: #444; margin: 0 0 2rem; }
+.locations { background: var(--light); padding: 1.5rem; border-left: 4px solid var(--amber); margin: 2rem 0 0; }
+.locations h3 { font-size: 1.1rem; font-weight: 700; margin: 0 0 1rem; color: var(--rust); }
+.locations ul { list-style: none; padding: 0; margin: 0; }
+.locations li { padding: 0.5rem 0; font-size: 1rem; color: #333; }
+.locations li::before { content: "📍 "; }
+
+.signup-form { background: #fff; padding: 3rem 2.5rem; border-top: 4px solid var(--rust); box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+.signup-form h2 { font-size: 1.8rem; font-weight: 800; margin: 0 0 1.5rem; }
+.form-group { margin-bottom: 1.5rem; }
+.form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.95rem; }
+.form-group input { width: 100%; padding: 0.85rem; border: 2px solid #ddd; font-size: 1rem; transition: border-color 0.2s; }
+.form-group input:focus { outline: none; border-color: var(--rust); }
+.btn-primary { background: var(--rust); color: #fff; padding: 0.95rem 2rem; font-size: 1rem; font-weight: 700; letter-spacing: 0.05em; text-decoration: none; transition: background 0.2s; display: inline-block; border: none; cursor: pointer; width: 100%; }
+.btn-primary:hover { background: var(--dark); }
+
+footer { background: var(--dark); padding: 3.5rem 5vw 2rem; }
+footer p { color: rgba(255,255,255,0.7); text-align: center; font-size: 0.9rem; margin: 0; }
+
+@media (max-width: 968px) {
+  .signup-container { grid-template-columns: 1fr; gap: 3rem; }
+  nav a:not(.logo):not(.nav-cta) { display: none; }
+  .hamburger { display: flex; }
+}
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.fade-up { animation: fadeUp 0.8s ease-out forwards; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" aria-label="Fair Rise Home">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 60" width="190" height="44">
+      <path d="M 10 46 A 22 22 0 0 1 54 46" fill="#C94A2B"/>
+      <rect x="10" y="46" width="44" height="3" rx="1.5" fill="#F2A11E"/>
+      <text x="68" y="36" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="19" font-weight="800" letter-spacing="3" fill="#8B6340">FAIR RISE</text>
+      <text x="69" y="52" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="8.5" font-weight="400" letter-spacing="4.5" fill="#7A4A2A">BAKERY · HIRING</text>
+    </svg>
+  </a>
+  <div style="display:flex;align-items:center;">
+    <a href="index.html#menu">Menu</a>
+    <a href="hiring.html">Fair Chance Hiring</a>
+    <a href="franchise.html">Franchise</a>
+    <a href="donate.html" class="nav-cta">Donate</a>
+  </div>
+  <button class="hamburger" onclick="document.getElementById('mob').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mob">
+  <a href="index.html">Home</a>
+  <a href="index.html#menu" onclick="document.getElementById('mob').classList.remove('open')">Menu</a>
+  <a href="hiring.html" onclick="document.getElementById('mob').classList.remove('open')">Fair Chance Hiring</a>
+  <a href="franchise.html" onclick="document.getElementById('mob').classList.remove('open')">Franchise</a>
+  <a href="donate.html" onclick="document.getElementById('mob').classList.remove('open')">Donate</a>
+</div>
+
+<div class="signup-container fade-up">
+  <div class="signup-info">
+    <h1>Join to find out <em>where we'll be next</em></h1>
+    <p>Get updates when we open new locations, launch new menu items, and expand to your area.</p>
+    
+    <div class="locations">
+      <h3>We're Currently Here</h3>
+      <ul>
+        <li>Chicago, IL - Pilsen</li>
+        <li>Chicago, IL - Austin</li>
+        <li>Chicago, IL - Bronzeville</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="signup-form">
+    <h2>Sign Up</h2>
+    <form>
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="zip">ZIP Code (optional)</label>
+        <input type="text" id="zip" name="zip" placeholder="Where should we open next?">
+      </div>
+      <button type="submit" class="btn-primary">JOIN THE LIST</button>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2025 Fair Rise Bakery. Building futures, one shift at a time.</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support Fair Rise Bakery</title>
+<style>
+:root {
+  --rust: #C94A2B;
+  --amber: #F2A11E;
+  --cream: #FDF6EC;
+  --light: #FAF3E0;
+  --dark: #8B6340;
+}
+html { scroll-behavior: smooth; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background: var(--cream); color: var(--dark); }
+body { margin: 0; line-height: 1.6; }
+* { box-sizing: border-box; }
+nav { position: sticky; top: 0; z-index: 100; background: var(--light); border-bottom: 2px solid var(--amber); display: flex; align-items: center; justify-content: space-between; padding: 0 5vw; height: 68px; }
+nav a:not(.nav-cta) { margin-left: 1.8rem; text-decoration: none; color: var(--dark); font-weight: 600; font-size: 0.92rem; transition: color 0.2s; }
+nav a:not(.nav-cta):hover { color: var(--rust); }
+.nav-cta { background: var(--rust); color: #fff; padding: 0.6rem 1.4rem; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em; text-decoration: none; transition: background 0.2s; white-space: nowrap; }
+.nav-cta:hover { background: var(--dark); }
+.hamburger { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 4px; }
+.hamburger span { display: block; width: 24px; height: 2px; background: var(--dark); }
+.mobile-menu { display: none; flex-direction: column; background: var(--light); border-bottom: 2px solid var(--amber); }
+.mobile-menu a { padding: 1rem 5vw; text-decoration: none; color: var(--dark); font-weight: 600; border-top: 1px solid rgba(0,0,0,0.06); }
+.mobile-menu.open { display: flex; }
+
+.hero-donate { min-height: 50vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5rem 5vw 3rem; background: var(--light); text-align: center; }
+.hero-donate h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 900; margin: 0 0 1rem; line-height: 1.1; }
+.hero-donate h1 em { font-style: normal; color: var(--rust); }
+.hero-donate p { max-width: 640px; font-size: 1.1rem; color: #444; margin: 0 0 2rem; }
+.btn-primary { background: var(--rust); color: #fff; padding: 0.95rem 2rem; font-size: 1rem; font-weight: 700; letter-spacing: 0.05em; text-decoration: none; transition: background 0.2s; display: inline-block; border: none; cursor: pointer; }
+.btn-primary:hover { background: var(--dark); }
+
+.partners { padding: 5rem 5vw; background: var(--cream); }
+.partners h2 { font-size: 2rem; font-weight: 800; text-align: center; margin: 0 0 3rem; }
+.partners-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 3rem; max-width: 1100px; margin: 0 auto; }
+.partner-card { background: #fff; padding: 2.5rem 2rem; border-top: 3px solid var(--amber); text-align: center; }
+.partner-logo { width: 100%; max-width: 200px; height: 120px; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+.partner-card h3 { font-size: 1.2rem; font-weight: 700; margin: 0 0 0.8rem; color: var(--rust); }
+.partner-card p { font-size: 0.95rem; line-height: 1.6; color: #555; margin: 0; }
+
+footer { background: var(--dark); padding: 3.5rem 5vw 2rem; }
+footer p { color: rgba(255,255,255,0.7); text-align: center; font-size: 0.9rem; margin: 0; }
+
+@media (max-width: 768px) {
+  nav a:not(.logo):not(.nav-cta) { display: none; }
+  .hamburger { display: flex; }
+  .hero-donate { padding: 3rem 5vw 2rem; }
+  .partners-grid { grid-template-columns: 1fr; }
+}
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.fade-up { animation: fadeUp 0.8s ease-out forwards; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" aria-label="Fair Rise Home">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 60" width="190" height="44">
+      <path d="M 10 46 A 22 22 0 0 1 54 46" fill="#C94A2B"/>
+      <rect x="10" y="46" width="44" height="3" rx="1.5" fill="#F2A11E"/>
+      <text x="68" y="36" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="19" font-weight="800" letter-spacing="3" fill="#8B6340">FAIR RISE</text>
+      <text x="69" y="52" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="8.5" font-weight="400" letter-spacing="4.5" fill="#7A4A2A">BAKERY · HIRING</text>
+    </svg>
+  </a>
+  <div style="display:flex;align-items:center;">
+    <a href="index.html#menu">Menu</a>
+    <a href="hiring.html">Fair Chance Hiring</a>
+    <a href="franchise.html">Franchise</a>
+    <a href="mailing-list.html" class="nav-cta">Join Mailing List</a>
+  </div>
+  <button class="hamburger" onclick="document.getElementById('mob').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mob">
+  <a href="index.html">Home</a>
+  <a href="index.html#menu" onclick="document.getElementById('mob').classList.remove('open')">Menu</a>
+  <a href="hiring.html" onclick="document.getElementById('mob').classList.remove('open')">Fair Chance Hiring</a>
+  <a href="franchise.html" onclick="document.getElementById('mob').classList.remove('open')">Franchise</a>
+  <a href="mailing-list.html" onclick="document.getElementById('mob').classList.remove('open')">Join Mailing List</a>
+</div>
+
+<section class="hero-donate fade-up">
+  <h1>Support <em>Fair Rise</em></h1>
+  <p>Your donation helps us expand our mission: creating high protein, healthy food and real jobs for people who deserve a second chance.</p>
+  <a href="#" class="btn-primary">DONATE NOW</a>
+</section>
+
+<section class="partners fade-up">
+  <h2>Our Partners in Impact</h2>
+  <div class="partners-grid">
+    <div class="partner-card">
+      <div class="partner-logo">
+        <!-- One on One Chicago Logo - Replace with actual logo from https://oneononechicago.com/ -->
+        <svg width="160" height="60" viewBox="0 0 160 60" xmlns="http://www.w3.org/2000/svg">
+          <text x="80" y="35" font-family="Arial, sans-serif" font-size="20" font-weight="700" text-anchor="middle" fill="#8B6340">One on One</text>
+          <text x="80" y="50" font-family="Arial, sans-serif" font-size="11" font-weight="600" text-anchor="middle" fill="#C94A2B">CHICAGO</text>
+        </svg>
+      </div>
+      <h3>One On One Chicago</h3>
+      <p>Community-based nonprofit providing comprehensive reentry services including case management, housing support, and employment readiness to individuals returning from incarceration.</p>
+    </div>
+    <div class="partner-card">
+      <div class="partner-logo">
+        <!-- UChicago Urban Labs Logo - Replace with actual logo from https://urbanlabs.uchicago.edu/ -->
+        <svg width="160" height="80" viewBox="0 0 160 80" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="20" width="30" height="30" fill="#800000" opacity="0.9"/>
+          <text x="50" y="32" font-family="Georgia, serif" font-size="12" font-weight="700" text-anchor="start" fill="#800000">University of Chicago</text>
+          <text x="50" y="46" font-family="Arial, sans-serif" font-size="14" font-weight="800" text-anchor="start" fill="#8B6340">Urban Labs</text>
+        </svg>
+      </div>
+      <h3>University of Chicago Urban Labs</h3>
+      <p>Research organization using data and rigorous evaluation to address poverty, crime, and education challenges in urban communities.</p>
+    </div>
+    <div class="partner-card">
+      <div class="partner-logo">
+        <!-- Edovo Logo - Replace with actual logo from https://www.edovo.org/ -->
+        <svg width="140" height="60" viewBox="0 0 140 60" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="30" cy="30" r="18" fill="#4A90E2" opacity="0.2"/>
+          <circle cx="30" cy="30" r="12" fill="#4A90E2"/>
+          <text x="55" y="37" font-family="Arial, sans-serif" font-size="26" font-weight="800" text-anchor="start" fill="#8B6340">edovo</text>
+        </svg>
+      </div>
+      <h3>Edovo</h3>
+      <p>Educational technology platform delivering tablet-based learning content to incarcerated individuals, helping them gain skills and prepare for reentry.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 Fair Rise Bakery. Building futures, one shift at a time.</p>
+</footer>
+
+</body>
+</html>
